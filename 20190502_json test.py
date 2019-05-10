@@ -1,44 +1,58 @@
-import os, json
+import os
+import json
 
 # TODO:
 # - 讀取資料
 # - 寫入資料
 # - 能夠hotfix，使系統不需要重啟
 # - 方便使用者新增/修改/刪除
-class Config :
-    def __init__(self, path) :
-        dir_path = os.path.dirname(os.path.realpath(__file__))
+
+
+class Config:
+    def __init__(self, path):
+        dir_path = os.path.abspath('.')
         self.path = os.path.join(dir_path, path)
         self.file = open(self.path, 'r')
         self.data = json.load(self.file)
+        self.close()
 
-    def __getitem__(self, index) :
-        return self.data[index]
+    def __getitem__(self, index):
+        try:
+            return self.data[index]
+        except Exception as e:
+            return False
 
     def __setitem__(self, index, value) :
-        self.data[index] = value
+        try:
+            self.data[index] = value
+        except Exception as e:
+            return False
 
-    def write(self) :
+    def write(self):
         self.close()
         self.file = open(self.path, 'w')
         
-        json.dump(self.data, self.file, sort_keys = False, indent = 4, separators = (',', ':'))
+        json.dump(self.data, self.file, sort_keys=False, indent=4, separators=(',', ' : '))
         
         self.close()
         self.file = open(self.path, 'r')
 
-    def close(self) :
+    def close(self):
         self.file.close()
 
-def main() :
-    test = Config("test.json")
-    print(test["a"])
-    test["a"] = 2
-    print(test["a"])
-    test["c"][0][0] = "kk"
-    test["b"] = "hello"
-    test.write()
-    print(test["b"])
+def insert(config):
+    station_name = "test"
+    go_action = [1]
+    go_ultrasonic = [2, 3]
+    config[station_name]["go"]["action"] = go_action
+    config[station_name]["go"]["ultrasonic"] = go_ultrasonic
 
-if __name__ == "__main__" :
+def main():
+    test = Config("test.json")
+    print(test['A001']['go']['laser'])
+    insert(test)
+    test.write()
+    test.close()
+
+if __name__ == "__main__":
     main()

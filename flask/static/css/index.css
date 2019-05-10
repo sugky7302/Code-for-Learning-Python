@@ -1,0 +1,39 @@
+#sitebody {
+  width: 1200px;
+  margin: 0 auto;
+  font-size: 16px;
+}
+
+#save_and_load {
+  height: 30px;
+}
+
+#station {
+  height: 80px;
+  float: left;
+}
+
+#setting {
+  width: 80px;
+  float: left;
+}
+
+#go_collide {
+  width: 120px;
+  float: left;
+}
+
+#go_action {
+  width: 120px;
+  float: left;
+}
+
+#back_collide {
+  width: 80px;
+  float: left;
+}
+
+#back_action {
+  width: 120px;
+  float: left;
+}

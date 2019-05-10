@@ -19,7 +19,10 @@ class Config :
         self.file.read(self.path)
 
     def __getitem__(self, section) :
-        return self.file[section]
+        try:
+            return self.file[section]
+        except Exception as e:
+            return None
 
     def __setitem__(self, section, option) :
         if type(option) == type({}) :
@@ -30,7 +33,7 @@ class Config :
         result = ""
         try:
             result = self.file.get(section, option)
-        except:
+        except Exception as e:
             result = "None"
         return result
 
@@ -50,7 +53,7 @@ class Config :
 
             self.file.set(section, option, value)
             self.write()
-        except:
+        except Exception as e:
             return False
             
         return True
@@ -59,7 +62,7 @@ class Config :
         self.file.write(open(self.path, 'w'))
 
 def main() :
-    test = Config('test.ini') # 這樣寫的話，ini要跟程式放在同層
+    test = Config('test1.ini') # 這樣寫的話，ini要跟程式放在同層
     print(test.get('a', 'b'))
     print(test['a']['k'])
     
