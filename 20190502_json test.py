@@ -29,13 +29,11 @@ class Config:
             return False
 
     def write(self):
-        self.close()
         self.file = open(self.path, 'w')
         
         json.dump(self.data, self.file, sort_keys=False, indent=4, separators=(',', ' : '))
         
         self.close()
-        self.file = open(self.path, 'r')
 
     def close(self):
         self.file.close()
@@ -44,8 +42,12 @@ def insert(config):
     station_name = "test"
     go_action = [1]
     go_ultrasonic = [2, 3]
-    config[station_name]["go"]["action"] = go_action
-    config[station_name]["go"]["ultrasonic"] = go_ultrasonic
+    config[station_name] = {
+        "go": {
+            "action": go_action,
+            "ultrasonic": go_ultrasonic
+        }
+    }
 
 def main():
     test = Config("test.json")

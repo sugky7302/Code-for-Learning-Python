@@ -1,39 +1,52 @@
 #sitebody {
-  width: 1200px;
+  width: 563px;
   margin: 0 auto;
-  font-size: 16px;
+  font-size: 13px;
 }
 
 #save_and_load {
-  height: 30px;
+  background-color:beige;
+  text-align: left;
+  height: 60px;
 }
 
 #station {
-  height: 80px;
+  background-color: #FFD4D4;
+  height: 230px;
   float: left;
 }
 
 #setting {
-  width: 80px;
+  background-color: #FFD4D4;
+  width: 70px;
+  height: 230px;
   float: left;
 }
 
 #go_collide {
-  width: 120px;
+  background-color: #FFECC9;
+  width: 70px;
+  height: 230px;
   float: left;
 }
 
 #go_action {
   width: 120px;
+  height: 230px;
   float: left;
+  background-color: #FFECC9;
 }
 
 #back_collide {
-  width: 80px;
+  width: 70px;
+  height: 230px;
   float: left;
+  background-color: #00D424;
 }
 
 #back_action {
   width: 120px;
+  height: 230px;
   float: left;
+  background-color: #00D424;
 }

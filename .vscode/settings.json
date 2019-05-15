@@ -3,4 +3,6 @@
     "python.linting.flake8Enabled": true,
     "python.linting.pylintEnabled": false,
     "python.linting.pylintArgs": ["--extension-pkg-whitelist=wx"],
+    "liveServer.settings.port": 6010,
+    "python.autoComplete.extraPaths": ["C:\\Program Files\\Kite"]
 }

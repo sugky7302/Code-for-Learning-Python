@@ -3,22 +3,21 @@
         <meta charset="utf-8">
         <title>站點劇本編輯器</title>
         <link rel="shortcut icon" type="image/png" href="http://www.uni-innovate.com/img/favicon.png">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
-        <!--script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script type="text/javascript" src="../scripts/index.js"></script-->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}"/>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/index.js')}}"></script>
     </head>
 
     <div id="sitebody" class="class1">
         <div id="save_and_load" class="class1">
-            <button id="save" value="0">讀取</button>
+            <button id="save" value="0" onclick="loadTest({{data}})">讀取</button>
             <button id="load" value="1">儲存</button>
         </div>
 
         <div id="station" class="class1">
             <form>
                 <label for="station_txt">站點列表</label><br>
-                <select name="station_select" size="10">
-                    <option value="0">111111111111111</option>
+                <select id="station_select" size="10" style="width:112px" onchange="loadData({{data}})">
                 </select><br>
                 <button id="station_add" value="158611">+</button>
                 <button id="station_del" value="158612">-</button>
@@ -27,8 +26,8 @@
 
         <div id="setting" class="class1">
             <form>
-                <label for="type_txt">類型</label><br>
-                <select name="type_box">
+                <label for="type_txt">站點類型</label><br>
+                <select id="type_box">
                     <option value="go">去程點</option>
                     <option value="back">回程點</option>
                     <option value="go_and_back">雙向點</option>
@@ -60,8 +59,7 @@
         <div id="go_action" class="class1">
             <form>
                 <label for="go_action_txt">去程動作</label><br>
-                <select name="go_action_select" size="10">
-                    <option value="0">111111111111111</option>
+                <select name="go_action_select" size="10" style="width:112px">
                 </select><br>
                 <button id="go_action_add" value="158511">+</button>
                 <button id="go_action_del" value="158512">-</button>
@@ -94,8 +92,7 @@
         <div id="back_action" class="class1">
             <form>
                 <label for="back_action_txt">回程動作</label><br>
-                <select name="back_action_select" size="10">
-                    <option value="0">111111111111111</option>
+                <select name="back_action_select" size="10" style="width:112px">
                 </select><br>
                 <button id="back_action_add" value="158511">+</button>
                 <button id="back_action_del" value="158512">-</button>

@@ -1,7 +1,5 @@
 # WxPython基礎指令
-
 import wx
-
 
 def write(event):
     print("button1 pressed...")
