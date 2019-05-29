@@ -1,7 +1,7 @@
 import os
 import sqlite3
 
-from flask import Blueprint, render_template, g
+from flask import Blueprint, render_template, g, request
 
 
 home = Blueprint('', __name__)
@@ -65,9 +65,6 @@ class FlaskSQL:
 @home.route('/')
 def index():
     db = FlaskSQL(path="./flask/test.db", table_mode="schema.sql")
-    db.execute("INSERT INTO stations Values('A000', 0, '3,200,2,0', 1, '', '', 0, '')")
-    db.execute("INSERT INTO stations Values('A001', 2, '0', 1, '', '2,3,3,201,2,1', 0, '4,5,6,7')")
-    db.commit()
 
     data = []
     for t in db.execute("SELECT * from stations"):
@@ -83,6 +80,6 @@ def index():
     return render_template('index.html', data=data)
 
 # index的form action的網址要跟這裡一樣
-@home.route('/load', methods=['GET'])
-def load():
-    return "Hello"
+@home.route('/save/<jsdata>', methods=['GET'])
+def get_javascript_data(jsdata):
+    return jsdata

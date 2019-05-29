@@ -52,7 +52,7 @@ class MyLog(object):
 
 
 def main():
-    test = MyLog()
+    test = MyLog(when="d", backupCount=30)
     test.debug("1")
     test.info("2")
     test.warning("3")

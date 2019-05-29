@@ -10,17 +10,19 @@
 
     <div id="sitebody" class="class1">
         <div id="save_and_load" class="class1">
-            <button id="save" value="0" onclick="loadTest({{data}})">讀取</button>
-            <button id="load" value="1">儲存</button>
+            <button id="load" value="0" onclick="loadTest({{data}})">讀取站點列表</button>
+            <form method="GET" action="/save">
+                <button id="save" value="save" onclick="saveTest()">儲存當前站點</button>
+            </form> 
         </div>
 
         <div id="station" class="class1">
             <form>
                 <label for="station_txt">站點列表</label><br>
-                <select id="station_select" size="10" style="width:112px" onchange="loadData({{data}})">
+                <select id="station_select" size="10" style="width:112px">
                 </select><br>
-                <button id="station_add" value="158611">+</button>
-                <button id="station_del" value="158612">-</button>
+                <button id="station_add" value="158611" onclick="addStation()">+</button>
+                <button id="station_del" value="158612" onclick="removeSelectedStation()">-</button>
             </form>
         </div>
 
@@ -38,66 +40,64 @@
         <div id="go_collide" class="class1">
             <form>
                 <label for="go_laser_text">去程雷射</label><br>
-                <select name="go_laser_box">
-                    <option value="none">未選擇</option>
-                    <option value="on">開</option>
+                <select id="go_laser_box">
                     <option value="off">關</option>
+                    <option value="on">開</option>
                 </select><br>
                 <br/>
                 <label for="go_ultrasonic_text">去程超聲波</label><br>
-                <input type="checkbox" value="0" name="go_ultrasonic_box">0<br>
-                <input type="checkbox" value="1" name="go_ultrasonic_box">1<br>
-                <input type="checkbox" value="2" name="go_ultrasonic_box">2<br>
-                <input type="checkbox" value="3" name="go_ultrasonic_box">3<br>
-                <input type="checkbox" value="4" name="go_ultrasonic_box">4<br>
-                <input type="checkbox" value="5" name="go_ultrasonic_box">5<br>
-                <input type="checkbox" value="6" name="go_ultrasonic_box">6<br>
-                <input type="checkbox" value="7" name="go_ultrasonic_box">7
+                <input type="checkbox" id="go_ultrasonic_box0">0<br>
+                <input type="checkbox" id="go_ultrasonic_box1">1<br>
+                <input type="checkbox" id="go_ultrasonic_box2">2<br>
+                <input type="checkbox" id="go_ultrasonic_box3">3<br>
+                <input type="checkbox" id="go_ultrasonic_box4">4<br>
+                <input type="checkbox" id="go_ultrasonic_box5">5<br>
+                <input type="checkbox" id="go_ultrasonic_box6">6<br>
+                <input type="checkbox" id="go_ultrasonic_box7">7
             </form>
         </div>
 
         <div id="go_action" class="class1">
             <form>
                 <label for="go_action_txt">去程動作</label><br>
-                <select name="go_action_select" size="10" style="width:112px">
+                <select id="go_action_select" size="10" style="width:112px">
                 </select><br>
-                <button id="go_action_add" value="158511">+</button>
-                <button id="go_action_del" value="158512">-</button>
-                <button id="go_action_up" value="158513">↑</button>
-                <button id="go_action_down" value="158514">↓</button>
+                <button id="go_action_add" value="158511" onclick="addGoAction()">+</button>
+                <button id="go_action_del" value="158512" onclick="removeSelectedGoAction()">-</button>
+                <button id="go_action_up" value="158513" onclick="moveUpSelectedGoAction()">↑</button>
+                <button id="go_action_down" value="158514" onclick="moveDownSelectedGoAction()">↓</button>
             </form>
         </div>
 
         <div id="back_collide" class="class1">
             <form>
                 <label for="back_laser_text">回程雷射</label><br>
-                <select name="back_laser_box">
-                    <option value="none">未選擇</option>
-                    <option value="on">開</option>
+                <select id="back_laser_box">
                     <option value="off">關</option>
+                    <option value="on">開</option>
                 </select><br>
                 <br/>
                 <label for="back_ultrasonic_text">回程超聲波</label><br>
-                <input type="checkbox" value="0" name="back_ultrasonic_box">0<br>
-                <input type="checkbox" value="1" name="back_ultrasonic_box">1<br>
-                <input type="checkbox" value="2" name="back_ultrasonic_box">2<br>
-                <input type="checkbox" value="3" name="back_ultrasonic_box">3<br>
-                <input type="checkbox" value="4" name="back_ultrasonic_box">4<br>
-                <input type="checkbox" value="5" name="back_ultrasonic_box">5<br>
-                <input type="checkbox" value="6" name="back_ultrasonic_box">6<br>
-                <input type="checkbox" value="7" name="back_ultrasonic_box">7
+                <input type="checkbox" id="back_ultrasonic_box0">0<br>
+                <input type="checkbox" id="back_ultrasonic_box1">1<br>
+                <input type="checkbox" id="back_ultrasonic_box2">2<br>
+                <input type="checkbox" id="back_ultrasonic_box3">3<br>
+                <input type="checkbox" id="back_ultrasonic_box4">4<br>
+                <input type="checkbox" id="back_ultrasonic_box5">5<br>
+                <input type="checkbox" id="back_ultrasonic_box6">6<br>
+                <input type="checkbox" id="back_ultrasonic_box7">7
             </form>
         </div>
 
         <div id="back_action" class="class1">
             <form>
                 <label for="back_action_txt">回程動作</label><br>
-                <select name="back_action_select" size="10" style="width:112px">
+                <select id="back_action_select" size="10" style="width:112px">
                 </select><br>
-                <button id="back_action_add" value="158511">+</button>
-                <button id="back_action_del" value="158512">-</button>
-                <button id="back_action_up" value="158513">↑</button>
-                <button id="back_action_down" value="158514">↓</button>
+                <button id="back_action_add" value="158511" onclick="addBackAction()">+</button>
+                <button id="back_action_del" value="158512" onclick="removeSelectedBackAction()">-</button>
+                <button id="back_action_up" value="158513" onclick="moveUpSelectedBackAction()">↑</button>
+                <button id="back_action_down" value="158514" onclick="moveDownSelectedBackAction()">↓</button>
             </form>
         </div>
     </div>
