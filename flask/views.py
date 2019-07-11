@@ -64,7 +64,7 @@ class FlaskSQL:
 # 路由和處理函式配對
 @home.route('/')
 def index():
-    db = FlaskSQL(path="./flask/test.db", table_mode="schema.sql")
+    db = FlaskSQL(path="../../Python_StationTaskEditor/data-dev.sqlite", table_mode="schema.sql")
 
     data = []
     for t in db.execute("SELECT * from stations"):
@@ -72,6 +72,7 @@ def index():
         for v in t:
             tb.append(v)
         data.append(tb)
+        print(tb)
         print(t)
         print(t[0])
 

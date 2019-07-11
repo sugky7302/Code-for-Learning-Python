@@ -25,8 +25,13 @@ def hi(k):
 
     return None
 
+def a():
+    return 1, 2, 3, 4, 5
+
 def main():
     k = hi(2)
+    t = a()
+    print(type(t), t)
 
 if __name__ == "__main__":
     main()

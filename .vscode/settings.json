@@ -1,8 +1,9 @@
 {
-    "python.pythonPath": "D:\\Tool\\Anaconda3\\envs\\flask-app\\python.exe",
+    "python.pythonPath": "D:\\Tool\\Anaconda3\\python.exe",
     "python.linting.flake8Enabled": true,
     "python.linting.pylintEnabled": false,
     "python.linting.pylintArgs": ["--extension-pkg-whitelist=wx"],
     "liveServer.settings.port": 6010,
-    "python.autoComplete.extraPaths": ["C:\\Program Files\\Kite"]
+    "python.formatting.provider": "yapf",
+    "files.insertFinalNewline": true,
 }
