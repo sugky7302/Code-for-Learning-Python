@@ -1,27 +1,27 @@
 import logging
-import getpass
 from logging import handlers
+import time
 
 
 class MyLog(object):
-    def __init__(self, when='m', backupCount=0):
-        # 獲取本地使用者
-        user = getpass.getuser()
-
-        self.logger = logging.getLogger(user)
+    def __init__(self, name=None, when='m', interval=1, backupCount=0):
+        self.logger = logging.getLogger(name or __name__)
         self.logger.setLevel(logging.DEBUG)
 
         # 建立格式
-        format = '%(asctime)s-%(levelname)s-%(name)s: %(message)s'
+        format = '%(asctime)s-%(levelname)s: %(message)s'
         formatter = logging.Formatter(format)
 
         streamhandler = logging.StreamHandler()
         streamhandler.setFormatter(formatter)
         self.logger.addHandler(streamhandler)
 
-        logfile = './' + user + ".log"
-        filehandler = handlers.TimedRotatingFileHandler(filename=logfile, when=when,
-                                                        interval=1, backupCount=backupCount)
+        logfile = './' + (name or __name__) + ".log"
+        filehandler = handlers.TimedRotatingFileHandler(
+            filename=logfile,
+            when=when,
+            interval=interval,
+            backupCount=backupCount)
         filehandler.suffix = "%Y%m%d-%H%M"
         filehandler.setFormatter(formatter)
         self.logger.addHandler(filehandler)
@@ -52,12 +52,15 @@ class MyLog(object):
 
 
 def main():
-    test = MyLog(when="d", backupCount=30)
-    test.debug("1")
-    test.info("2")
-    test.warning("3")
-    test.error("4")
-    test.critical("5")
+    test = MyLog(when="M", backupCount=5)
+
+    while True:
+        test.debug("1")
+        test.info("2")
+        test.warning("3")
+        test.error("4")
+        test.critical("5")
+        time.sleep(1.)
 
 
 if __name__ == "__main__":

@@ -175,4 +175,16 @@
             ]
         }
     },
+    "C005": {
+        "go_or_back": false,
+        "go": {
+            "action": [0]
+        }
+    },
+    "C006": {
+        "go_or_back": true,
+        "back": {
+            "action": [1]
+        }
+    }
 }
