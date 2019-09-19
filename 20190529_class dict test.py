@@ -3,8 +3,13 @@ class C1:
         print(1)
 
 class C2:
+    aaaa = 1
+
     def __init__(self):
-        print(2)
+        print(id(self.aaaa))
+        self.aaaa = 2
+        print(id(self.aaaa))
+
 
 class C3:
     def __init__(self):
@@ -29,9 +34,7 @@ def a():
     return 1, 2, 3, 4, 5
 
 def main():
-    k = hi(2)
-    t = a()
-    print(type(t), t)
+    k = hi(1)
 
 if __name__ == "__main__":
     main()

@@ -1,30 +1,53 @@
+import os
 import logging
 from logging import handlers
 import time
 
 
-class MyLog(object):
-    def __init__(self, name=None, when='m', interval=1, backupCount=0):
+class Log(object):
+    _instance = None
+
+    # NOTE: 干預創建實例，達到實現單例模式的目的
+    def __new__(cls, *args, **kw):
+        if cls._instance is None:
+            cls._instance = object.__new__(cls)  # NOTE: python2.7要寫成 ...(cls, *args, **kw)
+        return cls._instance
+
+    def __init__(self,
+                 name=None,
+                 path=".",
+                 when='h',
+                 interval=1,
+                 backupCount=236):
         self.logger = logging.getLogger(name or __name__)
         self.logger.setLevel(logging.DEBUG)
 
-        # 建立格式
-        format = '%(asctime)s-%(levelname)s: %(message)s'
-        formatter = logging.Formatter(format)
+        # 建立資料夾
+        dir_path = os.path.abspath('.')
+        self._path = os.path.join(dir_path, path)
+        if not os.path.isdir(self._path):
+            os.mkdir(self._path)
 
-        streamhandler = logging.StreamHandler()
-        streamhandler.setFormatter(formatter)
-        self.logger.addHandler(streamhandler)
+        # NOTE: 因為不判斷的話，logger會一直添加handler，導致handler過多，
+        #       一瞬間輸出大量相同訊息，導致系統當機。
+        if not self.logger.handlers:
+            # 建立格式
+            format = '%(asctime)s-%(levelname)s: %(message)s'
+            formatter = logging.Formatter(format)
 
-        logfile = './' + (name or __name__) + ".log"
-        filehandler = handlers.TimedRotatingFileHandler(
-            filename=logfile,
-            when=when,
-            interval=interval,
-            backupCount=backupCount)
-        filehandler.suffix = "%Y%m%d-%H%M"
-        filehandler.setFormatter(formatter)
-        self.logger.addHandler(filehandler)
+            streamhandler = logging.StreamHandler()
+            streamhandler.setFormatter(formatter)
+            self.logger.addHandler(streamhandler)
+
+            logfile = self._path + "/" + (name or __name__) + ".log"
+            filehandler = handlers.TimedRotatingFileHandler(
+                filename=logfile,
+                when=when,
+                interval=interval,
+                backupCount=backupCount)
+            filehandler.suffix = "%Y%m%d-%H%M"
+            filehandler.setFormatter(formatter)
+            self.logger.addHandler(filehandler)
 
     def debug(self, msg):
         self.logger.debug(msg)
@@ -52,9 +75,8 @@ class MyLog(object):
 
 
 def main():
-    test = MyLog(when="M", backupCount=5)
-
     while True:
+        test = Log(when="m", backupCount=5)
         test.debug("1")
         test.info("2")
         test.warning("3")
