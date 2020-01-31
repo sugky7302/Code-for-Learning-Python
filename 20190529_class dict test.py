@@ -1,3 +1,5 @@
+import traceback
+
 class C1:
     def __init__(self):
         print(1)
@@ -12,8 +14,13 @@ class C2:
 
 
 class C3:
+    __a = 5
+
+    def __new__(cls, *args, **kwargs):
+        print(cls.___a)
+
     def __init__(self):
-        print(3)
+        print(self.__class__.__a)
 
 
 def hi(k):
@@ -26,7 +33,10 @@ def hi(k):
     c = test.get(k, None)
 
     if c:
-        return c()
+        try:
+            return c()
+        except Exception as e:
+            print(type(e))
 
     return None
 
@@ -34,7 +44,12 @@ def a():
     return 1, 2, 3, 4, 5
 
 def main():
-    k = hi(1)
+    k = hi(2)
+    # print(0 < 1 < 2)
 
 if __name__ == "__main__":
     main()
+    a = "0,232,4,623,34,45"
+    print(a[0])
+    a = a.split(',')
+    print(a[2])

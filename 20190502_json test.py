@@ -22,7 +22,7 @@ class Config:
         except Exception as e:
             return False
 
-    def __setitem__(self, index, value) :
+    def __setitem__(self, index, value):
         try:
             self.data[index] = value
         except Exception as e:
@@ -30,13 +30,18 @@ class Config:
 
     def write(self):
         self.file = open(self.path, 'w')
-        
-        json.dump(self.data, self.file, sort_keys=False, indent=4, separators=(',', ' : '))
-        
+
+        json.dump(self.data,
+                  self.file,
+                  sort_keys=False,
+                  indent=4,
+                  separators=(',', ' : '))
+
         self.close()
 
     def close(self):
         self.file.close()
+
 
 def insert(config):
     station_name = "test"
@@ -49,12 +54,19 @@ def insert(config):
         }
     }
 
+
 def main():
+    print(
+        json.loads('''[
+        {"id": 2, "args":  [1]},
+        {"id": 14, "args": [0.6]},
+        {"id": "stay"},
+        {"import": "test3"}
+    ]'''))
     test = Config("test.json")
-    print(test['A001']['go']['laser'])
-    insert(test)
-    test.write()
-    test.close()
+    print(test['a'][0])
+    print(test['b'][1])
+
 
 if __name__ == "__main__":
     main()

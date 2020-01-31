@@ -1,4 +1,6 @@
 import math
+import numpy as np
+import time
 
 # for i in range(1, 5):
 #     angle = math.pi / 2 * i
@@ -25,3 +27,23 @@ for i in range(0, 81):
         print(i)
 
     a += math.pi * 0.05
+
+print(math.radians(18)*90/340)
+
+print(math.radians(90))
+print(math.radians(4.5))
+# start = time.time()
+
+# for i in range(1000000):
+#     x = np.random.random(2)
+#     y = np.random.random(2)
+#     d = np.sqrt(np.sum(np.square(x-y)))
+# print("{:.8f}".format(time.time()-start))
+
+# start = time.time()
+
+# for i in range(1000000):
+#     x = np.random.random(2)
+#     y = np.random.random(2)
+#     d = np.linalg.norm(x-y)
+# print("{:.8f}".format(time.time()-start))
