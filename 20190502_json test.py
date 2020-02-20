@@ -57,12 +57,9 @@ def insert(config):
 
 def main():
     print(
-        json.loads('''[
-        {"id": 2, "args":  [1]},
-        {"id": 14, "args": [0.6]},
-        {"id": "stay"},
-        {"import": "test3"}
-    ]'''))
+        json.loads(
+            '[\n    {"id": 2, "args":  [1]},\n    {"id": 14, "args": [0.6]},\n    {"id": "stay"},\n    {"import": "test3"}\n]'
+        ))
     test = Config("test.json")
     print(test['a'][0])
     print(test['b'][1])

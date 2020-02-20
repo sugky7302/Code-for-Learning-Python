@@ -1,9 +1,10 @@
 {
     // "python.pythonPath": "D:\\Tool\\Anaconda3\\python.exe",
-    "python.pythonPath": "D:\\Tool\\Anaconda3\\envs\\gerneral\\python.exe",
+    "python.pythonPath": "D:\\Tool\\Anaconda3\\envs\\test-v3.8\\python.exe",
     "python.linting.flake8Enabled": true,
     "python.linting.pylintEnabled": false,
     "python.linting.pylintArgs": ["--extension-pkg-whitelist=wx"],
     "python.formatting.provider": "yapf",
     "files.insertFinalNewline": true,
+    "python.linting.enabled": true,
 }

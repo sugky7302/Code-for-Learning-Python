@@ -53,3 +53,18 @@ if __name__ == "__main__":
     print(a[0])
     a = a.split(',')
     print(a[2])
+
+class A:
+    def b(self):
+        self.B.c()
+
+class B:
+    def __init__(self, A):
+        self.A = A
+        A.B = self
+    
+    def c(self):
+        print("hi")
+
+B(p := A())
+p.b()
