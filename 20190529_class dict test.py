@@ -68,3 +68,27 @@ class B:
 
 B(p := A())
 p.b()
+
+class P:
+    def __init__(self):
+        self.a = 10
+
+    def b(self):
+        print(self.a)
+
+class Q(P):
+    A = 1
+    B = 2
+
+    def __init__(self):
+        super().__init__()  # self = P.__init__(self)
+        self.t = 5
+
+    def b(self):
+        print(self.B)
+        super().b()  # P.b(self)
+        print(self.a + self.t)
+
+q = Q()
+q.b()
+print(['1'] == ['4'])
