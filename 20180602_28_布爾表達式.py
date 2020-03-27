@@ -18,3 +18,7 @@ not ("testing" == "testing" and "Zed" == "Cool Guy") # True
 1 == 1 and (not ("testing" == 1 or 1 == 0)) # True
 "chunky" == "bacon" and (not (3 == 4 or 3 == 3)) # False
 3 == 3 and (not ("testing" == "testing" or "Python" == "Fun")) # False
+a = 1 and "" or "a"  # 有問題，會回傳a
+b = (1 and [""] or ["a"])[0]  # 利用list將""包住，這樣python就會認為是true
+print(a, b)
+print(1 and 2 and 3)

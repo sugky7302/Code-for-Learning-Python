@@ -8,6 +8,7 @@ import traceback
 
 
 class Message:
+
     def __init__(self, selector, sock, addr, request):
         self.selector = selector
         self.sock = sock
@@ -62,15 +63,12 @@ class Message:
 
     def _json_decode(self, json_bytes, encoding):
         tiow = io.TextIOWrapper(
-            io.BytesIO(json_bytes), encoding=encoding, newline=""
-        )
+            io.BytesIO(json_bytes), encoding=encoding, newline="")
         obj = json.load(tiow)
         tiow.close()
         return obj
 
-    def _create_message(
-        self, *, content_bytes, content_type, content_encoding
-    ):
+    def _create_message(self, *, content_bytes, content_type, content_encoding):
         jsonheader = {
             "byteorder": sys.byteorder,
             "content-type": content_type,
@@ -166,23 +164,21 @@ class Message:
     def process_protoheader(self):
         hdrlen = 2
         if len(self._recv_buffer) >= hdrlen:
-            self._jsonheader_len = struct.unpack(
-                ">H", self._recv_buffer[:hdrlen]
-            )[0]
+            self._jsonheader_len = struct.unpack(">H",
+                                                 self._recv_buffer[:hdrlen])[0]
             self._recv_buffer = self._recv_buffer[hdrlen:]
 
     def process_jsonheader(self):
         hdrlen = self._jsonheader_len
         if len(self._recv_buffer) >= hdrlen:
-            self.jsonheader = self._json_decode(
-                self._recv_buffer[:hdrlen], "utf-8"
-            )
+            self.jsonheader = self._json_decode(self._recv_buffer[:hdrlen],
+                                                "utf-8")
             self._recv_buffer = self._recv_buffer[hdrlen:]
             for reqhdr in (
-                "byteorder",
-                "content-length",
-                "content-type",
-                "content-encoding",
+                    "byteorder",
+                    "content-length",
+                    "content-type",
+                    "content-encoding",
             ):
                 if reqhdr not in self.jsonheader:
                     raise ValueError(f'Missing required header "{reqhdr}".')
@@ -193,7 +189,8 @@ class Message:
             return
         data = self._recv_buffer[:content_len]
         self._recv_buffer = self._recv_buffer[content_len:]
-        if self.jsonheader["content-type"] == "text/json":
+        if (self.jsonheader["content-type"] == "text/json" or
+                self.jsonheader['content-type'] == 'text/command'):
             encoding = self.jsonheader["content-encoding"]
             self.response = self._json_decode(data, encoding)
             print("received response", repr(self.response), "from", self.addr)
@@ -220,11 +217,17 @@ def create_request(action, value):
             encoding="utf-8",
             content=dict(action=action, value=value),
         )
+    elif action == "command":
+        return {
+            "type": "text/command",
+            "encoding": "utf-8",
+            "content": bytes(value, encoding='utf-8'),
+        }
     else:
         return dict(
             type="binary/custom-client-binary-type",
             encoding="binary",
-            content=bytes(action + value, encoding="utf-8"),
+            content=bytes(action, encoding="utf-8"),
         )
 
 
@@ -247,7 +250,6 @@ host, port = sys.argv[1], int(sys.argv[2])
 action, value = sys.argv[3], sys.argv[4]
 request = create_request(action, value)
 start_connection(host, port, request)
-
 try:
     while True:
         events = sel.select(timeout=1)
