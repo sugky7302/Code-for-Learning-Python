@@ -1,5 +1,9 @@
+# -*- coding: utf-8 -*-
 import sys
-import selectors
+try:  # Python3有內建
+    import selectors
+except ImportError:  # Python2必須要自己使用pip安裝
+    import selectors2 as selectors
 import json
 import io
 import struct
@@ -30,14 +34,14 @@ class Message:
         elif mode == "rw":
             events = selectors.EVENT_READ | selectors.EVENT_WRITE
         else:
-            raise ValueError(f"Invalid events mask mode {repr(mode)}.")
+            raise ValueError("Invalid events mask mode " + repr(mode))
         self.selector.modify(self.sock, events, data=self)
 
     def _read(self):
         try:
             # Should be ready to read
             data = self.sock.recv(4096)
-        except BlockingIOError:
+        except io.BlockingIOError:
             # Resource temporarily unavailable (errno EWOULDBLOCK)
             pass
         else:
@@ -52,7 +56,7 @@ class Message:
             try:
                 # Should be ready to write
                 sent = self.sock.send(self._send_buffer)
-            except BlockingIOError:
+            except io.BlockingIOError:
                 # Resource temporarily unavailable (errno EWOULDBLOCK)
                 pass
             else:
@@ -68,7 +72,7 @@ class Message:
         tiow.close()
         return obj
 
-    def _create_message(self, *, content_bytes, content_type, content_encoding):
+    def _create_message(self, content_bytes, content_type, content_encoding):
         jsonheader = {
             "byteorder": sys.byteorder,
             "content-type": content_type,
@@ -83,11 +87,11 @@ class Message:
     def _process_response_json_content(self):
         content = self.response
         result = content.get("result")
-        print(f"got result: {result}")
+        print("got result: " + str(result))
 
     def _process_response_binary_content(self):
         content = self.response
-        print(f"got response: {repr(content)}")
+        print("got response: {}".format(repr(content)))
 
     def process_events(self, mask):
         if mask & selectors.EVENT_READ:
@@ -126,16 +130,14 @@ class Message:
             self.selector.unregister(self.sock)
         except Exception as e:
             print(
-                f"error: selector.unregister() exception for",
-                f"{self.addr}: {repr(e)}",
+                "error: selector.unregister() exception for {}: {}".format(self.addr, repr(e))
             )
 
         try:
             self.sock.close()
         except OSError as e:
             print(
-                f"error: socket.close() exception for",
-                f"{self.addr}: {repr(e)}",
+                "error: socket.close() exception for {}: {}".format(self.addr, repr(e))
             )
         finally:
             # Delete reference to socket object for garbage collection
@@ -181,7 +183,7 @@ class Message:
                     "content-encoding",
             ):
                 if reqhdr not in self.jsonheader:
-                    raise ValueError(f'Missing required header "{reqhdr}".')
+                    raise ValueError('Missing required header "{}".'.format(reqhdr))
 
     def process_response(self):
         content_len = self.jsonheader["content-length"]
@@ -199,8 +201,7 @@ class Message:
             # Binary or unknown content-type
             self.response = data
             print(
-                f'received {self.jsonheader["content-type"]} response from',
-                self.addr,
+                'received {} response from {}'.format(self.jsonheader["content-type"], self.addr)
             )
             self._process_response_binary_content()
         # Close when response has been processed
@@ -221,7 +222,7 @@ def create_request(action, value):
         return {
             "type": "text/command",
             "encoding": "utf-8",
-            "content": bytes(value, encoding='utf-8'),
+            "content": bytes(value).encode("utf-8"),
         }
     else:
         return dict(
@@ -259,8 +260,7 @@ try:
                 message.process_events(mask)
             except Exception:
                 print(
-                    "main: error: exception for",
-                    f"{message.addr}:\n{traceback.format_exc()}",
+                    "main: error: exception for {}:\n{}".format(message.addr, traceback.format_exc())
                 )
                 message.close()
         # Check for a socket being monitored to continue.

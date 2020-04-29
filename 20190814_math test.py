@@ -14,7 +14,7 @@ print(x, y)
 
 
 def sin_cos(rad):
-    _, quotient = math.modf((abs(rad-0.0001) + math.pi) / (2 * math.pi))
+    _, quotient = math.modf((abs(rad - 0.0001) + math.pi) / (2 * math.pi))
     ans = rad - math.copysign(1, rad) * quotient * (2 * math.pi)
     # print(quotient, ans)
     return ans
@@ -28,7 +28,7 @@ for i in range(0, 81):
 
     a += math.pi * 0.05
 
-print(math.radians(18)*90/340)
+print(math.radians(18) * 90 / 340)
 
 print(math.radians(90))
 print(math.radians(4.5))
